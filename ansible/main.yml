@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  user: vagrant
+  tasks:
+  - name: Install net-tools
+    yum: name=net-tools state=installed
+
