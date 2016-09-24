@@ -22,10 +22,16 @@
   - name: Start docker
     service: name=docker state=started enabled=yes
 
+  - name: Check docker-compose
+    stat: path=/usr/bin/docker-compose
+    register: dockercompose 
+    become: yes
+
   - name: Install Docker Compose
     shell: |
       curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose
       chmod +x /usr/bin/docker-compose
+    when: dockercompose.stat.exists != True
     become: yes
 
   - name: Install Git
